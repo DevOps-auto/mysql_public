@@ -1,0 +1,26 @@
+FROM ubuntu:latest
+MAINTAINER SatishBanka "satishbanka@gmail.com"
+
+RUN apt-get update \
+  && apt-get install -y python3-pip python3-dev \
+  && cd /usr/local/bin \
+  && ln -s /usr/bin/python3 python \
+  && pip3 install --upgrade pip
+
+WORKDIR /app/zoro
+
+COPY . /app/zoro
+
+RUN pip install -r /app/zoro/zoro_requirements.txt
+
+RUN apt-get install -y libsm6 libxext6 libxrender-dev
+RUN pip install opencv-python
+RUN apt install tesseract-ocr
+RUN apt install libtesseract-dev
+
+EXPOSE 40006
+
+#ENTRYPOINT [ "python" ]
+CMD [ "python","zoro_server.py" ]
+~
+

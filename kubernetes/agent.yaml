@@ -1,0 +1,28 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: agent-deployment
+ spec:
+   replicas: 1
+   selector:
+    matchLabels:
+     app: agent-deployment
+   template:
+     metadata:
+       labels:
+         app: agent-deployment
+     spec:
+       containers:
+         - name: container1
+           image: docker.io/sufiz/zoro:agent
+           command: [ "/bin/bash", "-c", "--" ]
+           args: [ "while true; do sleep 30; done;" ]
+           command: [ "python3", "/app/main.py" ]
+           ports:
+             - containerPort: 8876
+       imagePullSecrets:
+         - name: regcred
+
+
+
